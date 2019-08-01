@@ -8,5 +8,6 @@ export {
 	setContext,
 	getContext,
 	tick,
-	createEventDispatcher
+	createEventDispatcher,
+	createCustomDispatcher
 } from 'svelte/internal';

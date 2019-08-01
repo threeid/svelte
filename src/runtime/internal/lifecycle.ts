@@ -44,6 +44,26 @@ export function createEventDispatcher() {
 	};
 }
 
+export function createCustomDispatcher() {
+	const component = current_component;
+
+	return (type, detail) => {
+		const callbacks = component.$$.callbacks[type];
+
+		if (callbacks) {
+			const event = new CustomEvent(type, { 
+				detail, 
+				// allow custom event to pass through shadow DOM boundary
+				bubbles: true, 
+				composed: true 
+			});
+			callbacks.slice().forEach(fn => {
+				fn.call(component, event);
+			});
+		}
+	};
+}
+
 export function setContext(key, context) {
 	get_current_component().$$.context.set(key, context);
 }
